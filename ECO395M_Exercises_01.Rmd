@@ -26,7 +26,7 @@ What is the best time of the year to fly to New York City or Los Angeles to mini
 NYC Airport Destinations: JFK  
 LA Airport Destinations: LAX, SNA, ONT, LGB
 
-```{r, echo=FALSE, include=FALSE}
+```{r, echo=FALSE, warning=FALSE}
 abia_flights = read.csv("ABIA.csv")
 ## What is the best time of the year to fly to New York City or Los Angeles to minimize delays?
 ## NYC Airport Destinations: JFK
@@ -58,7 +58,7 @@ The average total delay time for an October flight to Los Angeles is -0.2808989!
 
 ## 2) Wrangling the Billboard Top 100
 
-```{r, echo=FALSE, include=FALSE}
+```{r, echo=FALSE, warning=FALSE}
 
 billboard = read.csv("billboard.csv")
 
@@ -85,7 +85,7 @@ Popular music become increasingly diverse until the mid 70s, but drop rapidly un
   
 
 
-```{r, echo=FALSE, include=FALSE}
+```{r, echo=FALSE, warning=FALSE}
 
 ten_week = billboard %>%
   group_by(song_id, performer) %>%
@@ -107,7 +107,7 @@ Elton John has the most number of ten-week hits with fifty two of them, while mo
 
 ## 3) Wrangling the Olympics
 
-```{r, echo=FALSE, include=FALSE}
+```{r, echo=FALSE, warning=FALSE}
 
 olympics = read.csv("olympics_top20.csv")
 
@@ -147,7 +147,7 @@ The average age of olympic swimmers spikes up in the 1910s and drops dramaticall
 
 ## 4) K-nearest neighbors
 
-```{r, echo=FALSE, include=FALSE}
+```{r, echo=FALSE, warning=FALSE}
 
 mercedes = read.csv("sclass.csv")
 merc_350 = mercedes %>%
@@ -158,7 +158,7 @@ merc_65 = mercedes %>%
 ```
 
 # Trim: 350
-```{r, echo=FALSE, include=FALSE}
+```{r, echo=FALSE, warning=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
 
 merc_350_split =  initial_split(merc_350, prop=0.9)
@@ -194,7 +194,7 @@ p_test + geom_line(aes(x = mileage, y = price_pred), color='red', size=1.5)
 
 
 # 65
-```{r, echo=FALSE, include=FALSE}
+```{r, echo=FALSE, warning=FALSE}
 
 merc_65_split =  initial_split(merc_65, prop=0.9)
 merc_65_train = training(merc_65_split)

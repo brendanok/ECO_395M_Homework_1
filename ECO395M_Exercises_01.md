@@ -7,19 +7,39 @@ biggest cities in the United States by population.
 NYC Airport Destinations: JFK  
 LA Airport Destinations: LAX, SNA, ONT, LGB
 
+    ## `summarise()` has grouped output by 'dest_city'. You can override using the `.groups` argument.
+
+![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-1-1.png)
+
 The average total delay time for an October flight to Los Angeles is
 -0.2808989!
 
 ## 2) Wrangling the Billboard Top 100
 
+![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-2-1.png)
+
 Popular music become increasingly diverse until the mid 70s, but drop
 rapidly until the turn of the millenium. After that, the diversity of
 music rises sharply through present day.
+
+![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-3-1.png)
 
 Elton John has the most number of ten-week hits with fifty two of them,
 while most of the artists have less than forty.
 
 ## 3) Wrangling the Olympics
+
+    ##   q95_height
+    ## 1        183
+
+    ## Selecting by sd_height
+
+    ## # A tibble: 1 x 2
+    ##   event                      sd_height
+    ##   <chr>                          <dbl>
+    ## 1 Rowing Women's Coxed Fours      10.9
+
+![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-4-1.png)![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-4-2.png)
 
 The average age of olympic swimmers spikes up in the 1910s and drops
 dramatically in the 1920s and stays that way until it starts to steadily
@@ -32,4 +52,16 @@ always lower than the average male swimmer age.
 
 # Trim: 350
 
+![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-6-1.png)
+
+    ## [1] 76
+
+![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-6-2.png)
+
 # 65
+
+![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-7-1.png)
+
+    ## [1] 57
+
+![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-7-2.png)
