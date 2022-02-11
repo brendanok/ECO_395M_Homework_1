@@ -113,8 +113,7 @@ olympics = read.csv("olympics_top20.csv")
 
 olympics %>%
   filter(sex == 'F' & sport == "Athletics") %>%
-  summarize(q95_height = quantile(height, 0.95)) %>%
-  arrange(q95_height)
+  summarize(q95_height = quantile(height, 0.95))
 ```
 The 95th percentile of heights for female competitors across all Athletics events is 183.
 
@@ -164,7 +163,7 @@ merc_65 = mercedes %>%
 
 ```
 
-# Trim 350
+### Trim 350
 ```{r, echo=FALSE, warning=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
 
@@ -204,7 +203,7 @@ p_test + geom_line(aes(x = mileage, y = price_pred), color='red', size=1.5)
 ```
 
 
-# Trim 65
+### Trim 65
 ```{r, echo=FALSE, warning=FALSE}
 
 merc_65_split =  initial_split(merc_65, prop=0.9)
@@ -240,3 +239,4 @@ p_test = ggplot(data = merc_65_test) +
 p_test + geom_line(aes(x = mileage, y = price_pred), color='red', size=1.5)
 
 ```
+
