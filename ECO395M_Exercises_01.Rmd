@@ -1,0 +1,225 @@
+---
+title: "ECO395M Exercises 01"
+author: "Brendan Ok"
+date: ""
+output:
+  md_document:
+    variant: markdown_github
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+```
+
+## 1) Data visualization: Flights at ABIA
+
+What is the best time of the year to fly to New York City or Los Angeles to minimize delays? We'll pick these two cities because they are the biggest cities in the United States by population.
+
+
+NYC Airport Destinations: JFK  
+LA Airport Destinations: LAX, SNA, ONT, LGB
+
+```{r, echo=FALSE}
+abia_flights = read.csv("ABIA.csv")
+## What is the best time of the year to fly to New York City or Los Angeles to minimize delays?
+## NYC Airport Destinations: JFK
+## LA Airports Destinations: LAX, SNA, ONT, LGB
+
+NYC <- c("JFK")
+LA <- c("LAX","SNA","ONT","LGB")
+
+# Let's filter the destinations to only include destinations to Los Angles or New York City
+temp = filter(abia_flights, Dest %in% LA | Dest %in% NYC)
+
+big_dest = temp %>% 
+  mutate(tot_delay = ArrDelay + DepDelay,
+         dest_city = ifelse(Dest %in% LA, "LA", "NYC"))
+
+by_dest_monthly = big_dest %>% 
+  group_by(dest_city, Month) %>%
+  summarize(count = n(), 
+            mean_tot_delay = mean(tot_delay, na.rm=TRUE))
+
+ggplot(by_dest_monthly) + 
+  geom_col(aes(x=factor(Month), y=mean_tot_delay)) + 
+  facet_wrap(~dest_city)
+
+```
+
+The average total delay time for an October flight to Los Angeles is -0.2808989!
+
+
+## 2) Wrangling the Billboard Top 100
+
+```{r, echo=FALSE}
+
+billboard = read.csv("billboard.csv")
+
+top10 = billboard %>% 
+  group_by(performer, song) %>% 
+  filter(year >= 1958) %>%
+  summarize(count = n(), .groups = 'drop') %>%
+  top_n(10, count) %>%
+  arrange(desc(count)) 
+view(top10)
+
+diverse = billboard %>%
+  filter(!year %in% "1958" & !year %in% "2021" ) %>%
+  group_by(year) %>%
+  summarize(num_unique_songs = n_distinct(song_id), .groups = 'drop') %>%
+  arrange(year)
+
+ggplot(diverse) + geom_line(aes(x=year, y=num_unique_songs))
+
+```
+
+Popular music become increasingly diverse until the mid 70s, but drop rapidly until the turn of the millenium. After that, the diversity of music rises sharply through present day.  
+  
+  
+
+
+```{r, echo=FALSE}
+
+ten_week = billboard %>%
+  group_by(song_id, performer) %>%
+  summarize(count = n(), .groups='drop') %>%
+  filter(count >= 10)
+
+thirty_peaters = ten_week %>%
+  group_by(performer) %>%
+  summarize(count = n()) %>%
+  filter(count >= 30) %>%
+  arrange(count)
+
+ggplot(thirty_peaters) + 
+  geom_col(aes(x=reorder(performer, -count), y=count)) +
+  coord_flip()
+```
+
+Elton John has the most number of ten-week hits with fifty two of them, while most of the artists have less than forty.
+
+## 3) Wrangling the Olympics
+
+```{r, echo=FALSE}
+
+olympics = read.csv("olympics_top20.csv")
+
+olympics %>%
+  filter(sex == 'F' & sport == "Athletics") %>%
+  summarize(q95_height = quantile(height, 0.95))
+
+olympics %>%
+  filter(sex == "F") %>%
+  group_by(event) %>%
+  summarize(sd_height = sd(height)) %>%
+  arrange(desc(sd_height)) %>%
+  top_n(1)
+
+
+swim_age = olympics %>%
+  filter(sport == "Swimming") %>%
+  group_by(year) %>%
+  summarize(mean_swim_age = mean(age))
+
+ggplot(swim_age) +
+  geom_line(aes(x=year, y=mean_swim_age))
+
+swim_age_gender = olympics %>%
+  group_by(year, sex) %>%
+  summarize(mean_swim_age = mean(age), .groups='drop') 
+
+swim_age_gender %>%
+  ggplot( aes(x=year, y=mean_swim_age, group=sex, color = sex)) +
+  geom_line()
+
+
+```
+
+The average age of olympic swimmers spikes up in the 1910s and drops dramatically in the 1920s and stays that way until it starts to steadily rise in the 1970s. The trend looks similar for both female and male swimmers but female swimmers started at a much lower average age when they started competing. While the age gaps closed a bit, it's mostly always lower than the average male swimmer age.
+
+
+## 4) K-nearest neighbors
+
+```{r, echo=FALSE}
+library(caret)
+library(modelr)
+library(foreach)
+library(rsample)
+mercedes = read.csv("sclass.csv")
+merc_350 = mercedes %>%
+  filter(trim == "350")
+merc_65 = mercedes %>%
+  filter(trim == "65 AMG")
+
+```
+
+# Trim: 350
+```{r, echo=FALSE}
+
+merc_350_split =  initial_split(merc_350, prop=0.9)
+merc_350_train = training(merc_350_split)
+merc_350_test  = testing(merc_350_split)
+
+k_grid = c(2:250)
+
+cv_350_grid = foreach(k = k_grid, .combine='rbind') %dopar% {
+  knn = knnreg(price ~ mileage, k=k, data = merc_350_train)
+  r = rmse(knn, data=merc_350_test)
+  c(k=k, err = r)
+} %>% as.data.frame
+
+
+ggplot(cv_350_grid) + 
+  geom_point(aes(x=k, y=err)) + 
+  scale_x_log10()
+
+optimal_k = cv_350_grid %>% 
+  filter(err == min(cv_350_grid$err))
+optimal_k$k
+knn_optimal = knnreg(price ~ mileage, data=merc_350_train, k=optimal_k$k)
+
+merc_350_test = merc_350_test %>%
+  mutate(price_pred = predict(knn_optimal, merc_350_test))
+p_test = ggplot(data = merc_350_test) + 
+  geom_point(mapping = aes(x = mileage, y = price), alpha=0.2) + 
+  ylim(7000, 20000)
+p_test + geom_line(aes(x = mileage, y = price_pred), color='red', size=1.5)
+
+```
+
+
+# 65
+```{r, echo=FALSE}
+merc_65_split =  initial_split(merc_65, prop=0.9)
+merc_65_train = training(merc_65_split)
+merc_65_test  = testing(merc_65_split)
+
+k_grid = c(2:250)
+
+cv_65_grid = foreach(k = k_grid, .combine='rbind') %dopar% {
+  knn = knnreg(price ~ mileage, k=k, data = merc_65_train)
+  r = rmse(knn, data=merc_65_test)
+  c(k=k, err = r)
+} %>% as.data.frame
+
+
+ggplot(cv_65_grid) + 
+  geom_point(aes(x=k, y=err)) + 
+  scale_x_log10()
+
+optimal_k_65 = cv_65_grid %>% 
+  filter(err == min(cv_65_grid$err))
+optimal_k_65$k
+knn_optimal_65 = knnreg(price ~ mileage, data=merc_65_train, k=optimal_k$k)
+
+merc_65_test = merc_65_test %>%
+  mutate(price_pred = predict(knn_optimal_65, merc_65_test))
+p_test = ggplot(data = merc_65_test) + 
+  geom_point(mapping = aes(x = mileage, y = price), alpha=0.2)
+
+p_test + geom_line(aes(x = mileage, y = price_pred), color='red', size=1.5)
+
+```
