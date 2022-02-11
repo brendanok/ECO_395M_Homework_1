@@ -7,7 +7,7 @@ biggest cities in the United States by population.
 NYC Airport Destinations: JFK  
 LA Airport Destinations: LAX, SNA, ONT, LGB
 
-    ## `summarise()` has grouped output by 'dest_city'. You can override using the `.groups` argument.
+    `summarise()` has grouped output by 'dest_city'. You can override using the `.groups` argument.
 
 ![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-1-1.png)
 
@@ -61,7 +61,7 @@ always lower than the average male swimmer age.
 
 ![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
-The optimal k is 6
+The optimal k is 89
 
 ![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
@@ -69,6 +69,6 @@ The optimal k is 6
 
 ![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
-The optimal k is 45
+The optimal k is 24
 
 ![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-11-1.png)
