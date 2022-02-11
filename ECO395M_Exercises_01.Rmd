@@ -188,7 +188,9 @@ optimal_k = cv_350_grid %>%
   filter(err == min(cv_350_grid$err))
 
 ```
-The optimal k is `r `optimal_k$k`
+
+The optimal k is `r optimal_k$k`
+
 
 ```{r, echo=FALSE, warning=FALSE}
 knn_optimal = knnreg(price ~ mileage, data=merc_350_train, k=optimal_k$k)
@@ -226,7 +228,8 @@ ggplot(cv_65_grid) +
 optimal_k_65 = cv_65_grid %>% 
   filter(err == min(cv_65_grid$err))
 ```
-The optimal k is `r `optimal_k_65$k`
+
+The optimal k is `r optimal_k_65$k`
 
 ```{r, echo=FALSE, warning=FALSE}
 knn_optimal_65 = knnreg(price ~ mileage, data=merc_65_train, k=optimal_k$k)
