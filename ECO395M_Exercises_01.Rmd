@@ -113,15 +113,23 @@ olympics = read.csv("olympics_top20.csv")
 
 olympics %>%
   filter(sex == 'F' & sport == "Athletics") %>%
-  summarize(q95_height = quantile(height, 0.95))
+  summarize(q95_height = quantile(height, 0.95)) %>%
+  arrange(q95_height)
+```
+The 95th percentile of heights for female competitors across all Athletics events is 183.
 
+```{r, echo=FALSE, warning=FALSE}
 olympics %>%
   filter(sex == "F") %>%
   group_by(event) %>%
   summarize(sd_height = sd(height)) %>%
   arrange(desc(sd_height)) %>%
   top_n(1)
+```
+Rowing Women's Coxed Fours had the greatest variability in competitor's heights across the entire history of the Olympics with a standard deviation of 10.9.
 
+
+```{r, echo=FALSE, warning=FALSE}
 
 swim_age = olympics %>%
   filter(sport == "Swimming") %>%
@@ -138,7 +146,6 @@ swim_age_gender = olympics %>%
 swim_age_gender %>%
   ggplot( aes(x=year, y=mean_swim_age, group=sex, color = sex)) +
   geom_line()
-
 
 ```
 
@@ -157,7 +164,7 @@ merc_65 = mercedes %>%
 
 ```
 
-# Trim: 350
+# Trim 350
 ```{r, echo=FALSE, warning=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
 
@@ -180,7 +187,11 @@ ggplot(cv_350_grid) +
 
 optimal_k = cv_350_grid %>% 
   filter(err == min(cv_350_grid$err))
-optimal_k$k
+
+```
+The optimal k is `r `optimal_k$k`
+
+```{r, echo=FALSE, warning=FALSE}
 knn_optimal = knnreg(price ~ mileage, data=merc_350_train, k=optimal_k$k)
 
 merc_350_test = merc_350_test %>%
@@ -193,7 +204,7 @@ p_test + geom_line(aes(x = mileage, y = price_pred), color='red', size=1.5)
 ```
 
 
-# 65
+# Trim 65
 ```{r, echo=FALSE, warning=FALSE}
 
 merc_65_split =  initial_split(merc_65, prop=0.9)
@@ -215,7 +226,10 @@ ggplot(cv_65_grid) +
 
 optimal_k_65 = cv_65_grid %>% 
   filter(err == min(cv_65_grid$err))
-optimal_k_65$k
+```
+The optimal k is `r `optimal_k_65$k`
+
+```{r, echo=FALSE, warning=FALSE}
 knn_optimal_65 = knnreg(price ~ mileage, data=merc_65_train, k=optimal_k$k)
 
 merc_65_test = merc_65_test %>%

@@ -32,6 +32,9 @@ while most of the artists have less than forty.
     ##   q95_height
     ## 1        183
 
+The 95th percentile of heights for female competitors across all
+Athletics events is 183.
+
     ## Selecting by sd_height
 
     ## # A tibble: 1 x 2
@@ -39,7 +42,11 @@ while most of the artists have less than forty.
     ##   <chr>                          <dbl>
     ## 1 Rowing Women's Coxed Fours      10.9
 
-![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-4-1.png)![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-4-2.png)
+Rowing Women’s Coxed Fours had the greatest variability in competitor’s
+heights across the entire history of the Olympics with a standard
+deviation of 10.9.
+
+![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-6-1.png)![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-6-2.png)
 
 The average age of olympic swimmers spikes up in the 1910s and drops
 dramatically in the 1920s and stays that way until it starts to steadily
@@ -50,18 +57,16 @@ always lower than the average male swimmer age.
 
 ## 4) K-nearest neighbors
 
-# Trim: 350
+# Trim 350
 
-![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-6-1.png)
+![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-8-1.png)
+The optimal k is `r`optimal_k$k\`
 
-    ## [1] 76
+![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
-![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-6-2.png)
+# Trim 65
 
-# 65
+![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-10-1.png)
+The optimal k is `r`optimal_k\_65$k\`
 
-![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-7-1.png)
-
-    ## [1] 57
-
-![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-7-2.png)
+![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-11-1.png)
