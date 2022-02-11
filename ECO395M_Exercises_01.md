@@ -70,3 +70,5 @@ The optimal k is 19
 The optimal k is 78
 
 ![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-11-1.png)
+
+Trim 65 has the higher optimal k possibly because there are less data points for this trim.
