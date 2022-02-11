@@ -61,7 +61,7 @@ always lower than the average male swimmer age.
 
 ![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
-The optimal k is 59
+The optimal k is 6
 
 ![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
@@ -69,6 +69,6 @@ The optimal k is 59
 
 ![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
-The optimal k is 6
+The optimal k is 45
 
 ![](ECO395M_Exercises_01_files/figure-markdown_github/unnamed-chunk-11-1.png)
