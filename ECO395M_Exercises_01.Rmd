@@ -243,3 +243,5 @@ p_test + geom_line(aes(x = mileage, y = price_pred), color='red', size=1.5)
 
 ```
 
+Trim 65 has the higher optimal k possibly because there are less data points for this trim.
+
